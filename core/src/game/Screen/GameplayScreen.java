@@ -1,4 +1,6 @@
-package game;
+package game.Screen;
+
+import game.Screen.AbstractScreen;
 
 /**
  * Created by barti on 06.12.2017.
