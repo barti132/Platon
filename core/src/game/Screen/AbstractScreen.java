@@ -21,7 +21,7 @@ abstract class AbstractScreen implements Screen{
 
     private void createCamera(){
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, Gdx.graphics.getWidth() / 18, Gdx.graphics.getHeight() / 18);
         camera.update();
     }
 
@@ -32,7 +32,7 @@ abstract class AbstractScreen implements Screen{
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(93 / 255f, 103 / 255f, 119 / 255f, 1);
+        Gdx.gl.glClearColor(30 / 255f, 102 / 255f, 158 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 

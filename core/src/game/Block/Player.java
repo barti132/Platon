@@ -17,10 +17,10 @@ public class Player{
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(50f, 50f);
+        bdef.position.set(4f, 6.5f);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(1f, 1f, new Vector2(0f, 0f), 0);
+        shape.setAsBox(1f, 1f);
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
@@ -28,7 +28,7 @@ public class Player{
         fdef.density = 58f;
 
         PolygonShape footShape = new PolygonShape();
-        footShape.setAsBox(0.5f, 0.5f, new Vector2(0f, -1.95f), 0);
+        footShape.setAsBox(.5f, .05f, new Vector2(0f, -0.95f), 0);
 
         FixtureDef footfdef = new FixtureDef();
         footfdef.shape = footShape;
@@ -36,7 +36,7 @@ public class Player{
         footfdef.density = 2f;
 
         body = world.createBody(bdef);
-        body.createFixture(footfdef);
+        body.createFixture(fdef);
         foot = body.createFixture(footfdef);
         body.setFixedRotation(true);
 

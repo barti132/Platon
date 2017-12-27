@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Platon";
 		config.height = 720;
-		config.width = 1080;
+		config.width = 1280;
 		config.vSyncEnabled = false;
 		new LwjglApplication(new Main(), config);
 	}
