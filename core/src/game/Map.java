@@ -47,7 +47,7 @@ public class Map{
                 shape.setAsBox(16 / (100/16) / 1.5f, 16 / (100/16) / 1.5f);
 
                 FixtureDef fdef = new FixtureDef();
-                fdef.friction = 2f;
+                fdef.friction = 5f;
                 fdef.shape = shape;
 
 
