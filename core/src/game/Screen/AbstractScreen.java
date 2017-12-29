@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import game.Main;
 
 /**
  * Created by barti on 06.12.2017.
@@ -21,7 +22,7 @@ abstract class AbstractScreen implements Screen{
 
     private void createCamera(){
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth() / 18, Gdx.graphics.getHeight() / 18);
+        camera.setToOrtho(false, (Gdx.graphics.getWidth() / 3) / Main.PPM, (Gdx.graphics.getHeight() / 3) / Main.PPM);
         camera.update();
     }
 

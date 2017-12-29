@@ -1,11 +1,11 @@
 package game.Screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import game.Block.Player;
+import game.Main;
 import game.Map;
 
 /**
@@ -30,12 +30,11 @@ public class GameplayScreen extends AbstractScreen{
     @Override
     public void render(float delta){
         super.render(delta);
-        update(delta);
+        update();
 
         player.move();
-        contact();
 
-        world.step(1 / 60f, 8, 3);
+        world.step(1 / 60f, 6, 2);
         render.render();
         renderDebug.render(world, camera.combined);
 
@@ -44,53 +43,11 @@ public class GameplayScreen extends AbstractScreen{
         batch.end();
     }
 
-    private void update(float delta){
+    private void update(){
         camera.position.x = player.getBody().getPosition().x;
         camera.update();
         render.setView(camera);
         batch.setProjectionMatrix(camera.combined);
-    }
-
-    private void addContactListener(){
-        world.setContactListener(new ContactListener(){
-            @Override
-            public void beginContact(Contact contact){
-                Fixture fixtureA = contact.getFixtureA();
-                Fixture fixtureB = contact.getFixtureB();
-            }
-
-            @Override
-            public void endContact(Contact contact){
-                Fixture fixtureA = contact.getFixtureA();
-                Fixture fixtureB = contact.getFixtureB();
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold){
-
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse){
-
-            }
-        });
-    }
-
-    private void contact(){
-        int numContacts = world.getContactCount();
-        if(numContacts > 0){
-            for(Contact contact : world.getContactList()){
-                Fixture fixtureA = contact.getFixtureA();
-                Fixture fixtureB = contact.getFixtureB();
-
-                if(player.getPlayerFoot().toString().equals(fixtureA.toString()) || player.getPlayerFoot().toString().equals(fixtureB.toString()))
-                    player.setContact(true);
-            }
-        }
-
-        else if(player.isContact())
-            player.setContact(false);
     }
 
 }
