@@ -5,7 +5,7 @@ import game.Screen.GameplayScreen;
 
 public class Main extends Game{
 
-	public static final float PPM = 100;
+	public static final float PPM = 100f;
 
 	@Override
 	public void create(){
