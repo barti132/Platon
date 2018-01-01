@@ -50,6 +50,14 @@
   <object id="159" x="2160" y="192" width="16" height="16"/>
   <object id="160" x="2144" y="208" width="16" height="16"/>
  </objectgroup>
+ <objectgroup name="pipes">
+  <object id="31" x="480" y="192" width="32" height="32"/>
+  <object id="32" x="624" y="176" width="32" height="48"/>
+  <object id="33" x="752" y="160" width="32" height="64"/>
+  <object id="34" x="912" y="160" width="32" height="64"/>
+  <object id="36" x="2896" y="192" width="32" height="32"/>
+  <object id="37" x="2608" y="192" width="32" height="32"/>
+ </objectgroup>
  <objectgroup name="coins">
   <object id="38" x="240" y="160" width="16" height="16"/>
   <object id="39" x="320" y="160" width="16" height="16"/>
@@ -101,13 +109,5 @@
   <object id="89" x="2704" y="160" width="16" height="16"/>
   <object id="90" x="2720" y="160" width="16" height="16"/>
   <object id="91" x="2752" y="160" width="16" height="16"/>
- </objectgroup>
- <objectgroup name="pipes">
-  <object id="31" x="480" y="192" width="32" height="32"/>
-  <object id="32" x="624" y="176" width="32" height="48"/>
-  <object id="33" x="752" y="160" width="32" height="64"/>
-  <object id="34" x="912" y="160" width="32" height="64"/>
-  <object id="36" x="2896" y="192" width="32" height="32"/>
-  <object id="37" x="2608" y="192" width="32" height="32"/>
  </objectgroup>
 </map>

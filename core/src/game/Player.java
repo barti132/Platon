@@ -108,7 +108,7 @@ public class Player extends Sprite{
         stateTimer = (currentState == previousState) ? (stateTimer + delta) : 0;
         previousState = currentState;
         return region;
-        
+
     }
 
     private State getState(){

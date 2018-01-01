@@ -7,6 +7,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import game.Block.Brick;
+import game.Block.Coin;
+import game.Block.Ground;
+import game.Block.Pipe;
 
 /**
  * Created by barti on 27.12.2017.
@@ -26,22 +30,23 @@ public class Map{
     }
 
     private void createPhysicalObject(World world){
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-
         for(int i = 2; i < 6; i++){
             for(MapObject object : map.getLayers().get(i).getObjects().getByType(RectangleMapObject.class)){
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-                bdef.type = BodyDef.BodyType.StaticBody;
-                bdef.position.set((rect.getX() + rect.getWidth() / 2) / Main.PPM, (rect.getY() + rect.getHeight() / 2) / Main.PPM);
-                shape.setAsBox((rect.getWidth() / 2) / Main.PPM, (rect.getHeight() / 2) / Main.PPM);
-                fdef.shape = shape;
-
-                body = world.createBody(bdef);
-                body.createFixture(fdef);
+                switch(i){
+                    case 2:
+                        new Ground(object, world);
+                        break;
+                    case 3:
+                        new Pipe(object, world);
+                        break;
+                    case 4:
+                        new Coin(object, world);
+                        break;
+                    case 5:
+                        new Brick(object, world);
+                        break;
+                        default:
+                }
             }
         }
     }
