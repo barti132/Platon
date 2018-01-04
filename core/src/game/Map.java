@@ -36,14 +36,18 @@ public class Map{
                         new Pipe(object, world);
                         break;
                     case 4:
-                        new Coin(object, world);
+                        new Coin(object, world, this);
                         break;
                     case 5:
-                        new Brick(object, world);
+                        new Brick(object, world, this);
                         break;
                         default:
                 }
             }
         }
+    }
+
+    public TiledMap getTiledMap(){
+        return map;
     }
 }

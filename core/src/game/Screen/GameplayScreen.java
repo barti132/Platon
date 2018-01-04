@@ -43,7 +43,7 @@ public class GameplayScreen extends AbstractScreen{
         renderDebug.render(world, camera.combined);
 
         batch.begin();
-        //player.draw(batch);
+        player.draw(batch);
         batch.end();
     }
 

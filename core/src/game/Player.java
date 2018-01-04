@@ -65,6 +65,8 @@ public class Player extends Sprite{
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(6 / Main.PPM);
+        fdef.filter.categoryBits = Main.MARIO_BIT;
+        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.DEFAULT_BIT;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
