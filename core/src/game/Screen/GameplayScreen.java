@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import game.Player;
 import game.Map;
+import game.WorldContactListener;
 
 /**
  * Created by barti on 06.12.2017.
@@ -27,6 +28,8 @@ public class GameplayScreen extends AbstractScreen{
         player = new Player(world, atlas);
         map = new Map();
         render = map.loadMap("1-1test.tmx", world);
+
+        world.setContactListener(new WorldContactListener());
     }
 
     @Override
@@ -40,7 +43,7 @@ public class GameplayScreen extends AbstractScreen{
         renderDebug.render(world, camera.combined);
 
         batch.begin();
-        player.draw(batch);
+        //player.draw(batch);
         batch.end();
     }
 

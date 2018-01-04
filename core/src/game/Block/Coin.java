@@ -7,7 +7,12 @@ public class Coin extends InteractiveObject{
 
     public Coin(MapObject object, World world){
         super(object, world);
+        fixture.setUserData(this);
+    }
 
+    @Override
+    public void onHeadHit(){
+        System.out.println("Coin");
     }
 
 }

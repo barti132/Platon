@@ -68,6 +68,12 @@ public class Player extends Sprite{
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / Main.PPM, 6 / Main.PPM), new Vector2(2 / Main.PPM, 6 / Main.PPM));
+        fdef.shape = head;
+        fdef.isSensor = true;
+        body.createFixture(fdef).setUserData("head");
     }
 
     public void update(float delta){

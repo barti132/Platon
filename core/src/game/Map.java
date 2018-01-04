@@ -18,10 +18,6 @@ import game.Block.Pipe;
 public class Map{
     private TiledMap map;
 
-    public Map(){
-        map = null;
-    }
-
     public OrthogonalTiledMapRenderer loadMap(String mapName, World world){
         map = new TmxMapLoader().load(mapName);
         OrthogonalTiledMapRenderer mapRenderer = new OrthogonalTiledMapRenderer(map, 1f / Main.PPM);
