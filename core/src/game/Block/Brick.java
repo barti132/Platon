@@ -2,6 +2,7 @@ package game.Block;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.World;
+import game.Hud;
 import game.Main;
 import game.Map;
 
@@ -16,5 +17,6 @@ public class Brick extends InteractiveObject{
     public void onHeadHit(){
         setCategoryFilter(Main.DESTROYED_BIT);
         getCell().setTile(null);
+        Hud.addScore(100);
     }
 }

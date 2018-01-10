@@ -58,6 +58,20 @@ public class Hud{
         stage.addActor(table);
     }
 
+    public void update(float delta){
+        timeCount += delta;
+        if(timeCount >= 1){
+            worldTimer--;
+            countdownL.setText(String.format("%03d", worldTimer));
+            timeCount = 0;
+        }
+    }
+
+    public static void addScore(int value){
+        score += value;
+        scoreL.setText(String.format("%06d", score));
+    }
+
     public Stage getStage(){
         return stage;
     }

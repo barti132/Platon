@@ -20,6 +20,7 @@ public abstract class Object{
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set((rect.getX() + rect.getWidth() / 2) / Main.PPM, (rect.getY() + rect.getHeight() / 2) / Main.PPM);
         shape.setAsBox((rect.getWidth() / 2) / Main.PPM, (rect.getHeight() / 2) / Main.PPM);
+        fdef.friction = .25f;
         fdef.shape = shape;
 
         body = world.createBody(bdef);

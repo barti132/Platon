@@ -46,7 +46,7 @@ public class GameplayScreen extends AbstractScreen{
         renderDebug.render(world, camera.combined);
 
         hud.getStage().draw();
-        
+
         batch.begin();
         player.draw(batch);
         batch.end();
@@ -59,6 +59,7 @@ public class GameplayScreen extends AbstractScreen{
         camera.update();
         render.setView(camera);
         batch.setProjectionMatrix(camera.combined);
+        hud.update(delta);
     }
 
 }

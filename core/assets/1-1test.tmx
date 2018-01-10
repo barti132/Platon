@@ -76,8 +76,6 @@
  <objectgroup name="bricks">
   <object id="52" x="304" y="160" width="16" height="16"/>
   <object id="53" x="336" y="160" width="16" height="16"/>
-  <object id="55" x="304" y="160" width="16" height="16"/>
-  <object id="56" x="336" y="160" width="16" height="16"/>
   <object id="57" x="368" y="160" width="16" height="16"/>
   <object id="58" x="1200" y="160" width="16" height="16"/>
   <object id="59" x="1232" y="160" width="16" height="16"/>
