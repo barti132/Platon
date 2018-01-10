@@ -76,4 +76,8 @@ public class Hud{
         return stage;
     }
 
+    public void dispose(){
+        stage.dispose();
+    }
+
 }

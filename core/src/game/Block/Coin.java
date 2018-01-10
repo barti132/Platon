@@ -1,5 +1,6 @@
 package game.Block;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.physics.box2d.World;
@@ -21,8 +22,14 @@ public class Coin extends InteractiveObject{
 
     @Override
     public void onHeadHit(){
-        getCell().setTile(tileSet.getTile(BLANK_COIN));
-        Hud.addScore(200);
+        if(getCell().getTile().getId() == BLANK_COIN)
+            Main.manager.get("audio/bump.wav", Sound.class).play();
+
+        else{
+            Main.manager.get("audio/coin.wav", Sound.class).play();
+            getCell().setTile(tileSet.getTile(BLANK_COIN));
+            Hud.addScore(200);
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package game.Block;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.World;
 import game.Hud;
@@ -18,5 +19,6 @@ public class Brick extends InteractiveObject{
         setCategoryFilter(Main.DESTROYED_BIT);
         getCell().setTile(null);
         Hud.addScore(100);
+        Main.manager.get("audio/breakblock.wav", Sound.class).play();
     }
 }

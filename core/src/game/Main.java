@@ -1,6 +1,9 @@
 package game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import game.Screen.GameplayScreen;
 
 public class Main extends Game{
@@ -13,10 +16,21 @@ public class Main extends Game{
 	public static final short COIN_BIT = 8;
 	public static final short DESTROYED_BIT = 16;
 
+	public static AssetManager manager;
+
 	@Override
 	public void create(){
 		Game game = this;
+		manager = new AssetManager();
+		manager.load("audio/mario_music.ogg", Music.class);
+		manager.load("audio/coin.wav", Sound.class);
+		manager.load("audio/bump.wav", Sound.class);
+		manager.load("audio/breakblock.wav", Sound.class);
+		manager.finishLoading();
+
 		game.setScreen(new GameplayScreen());
+
+		//manager.dispose();
 	}
 
 }

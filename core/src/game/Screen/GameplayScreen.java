@@ -1,14 +1,12 @@
 package game.Screen;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import game.Hud;
-import game.Player;
-import game.Map;
-import game.WorldContactListener;
+import game.*;
 
 /**
  * Created by barti on 06.12.2017.
@@ -22,6 +20,7 @@ public class GameplayScreen extends AbstractScreen{
     private Map map;
     private TextureAtlas atlas;
     private Hud hud;
+    private Music music;
 
     public GameplayScreen(){
         world = new World(new Vector2(0, -10f), true);
@@ -31,7 +30,10 @@ public class GameplayScreen extends AbstractScreen{
         map = new Map();
         render = map.loadMap("1-1test.tmx", world);
         hud = new Hud(batch);
+        music = Main.manager.get("audio/mario_music.ogg", Music.class);
 
+        music.setLooping(true);
+        music.play();
         world.setContactListener(new WorldContactListener());
     }
 
@@ -60,6 +62,13 @@ public class GameplayScreen extends AbstractScreen{
         render.setView(camera);
         batch.setProjectionMatrix(camera.combined);
         hud.update(delta);
+        Main.manager.update();
+    }
+
+    @Override
+    public void dispose(){
+        batch.dispose();
+        hud.dispose();
     }
 
 }
