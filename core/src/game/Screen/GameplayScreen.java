@@ -47,11 +47,13 @@ public class GameplayScreen extends AbstractScreen{
         render.render();
         renderDebug.render(world, camera.combined);
 
-        hud.getStage().draw();
+
 
         batch.begin();
         player.draw(batch);
         batch.end();
+
+        hud.getStage().draw();
     }
 
     private void update(float delta){
