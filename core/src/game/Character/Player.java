@@ -137,10 +137,10 @@ public class Player extends Sprite{
     }
 
     public void move(){
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x < 1)
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? (body.getLinearVelocity().x < 2) : (body.getLinearVelocity().x < 1)))
             body.setLinearVelocity(new Vector2(body.getLinearVelocity().x + 0.1f, body.getLinearVelocity().y));
 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x > -1)
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? (body.getLinearVelocity().x > -2) : (body.getLinearVelocity().x > -1)))
             body.setLinearVelocity(new Vector2(body.getLinearVelocity().x - 0.1f, body.getLinearVelocity().y));
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && currentState != State.FALLING && currentState != State.JUMPING)
