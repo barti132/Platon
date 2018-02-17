@@ -1,4 +1,4 @@
-package game;
+package game.Character;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,8 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
-
-import java.awt.*;
+import game.Main;
 
 /**
  * Created by barti on 10.12.2017.
@@ -35,7 +34,6 @@ public class Player extends Sprite{
 
         marioStand = new TextureRegion(region, 96, 0, 16, 16);
         setRegion(marioStand);
-
 
         setTexture(new Texture("mario_and_enemies.png"));
         currentState = State.STANDING;
@@ -71,7 +69,7 @@ public class Player extends Sprite{
         CircleShape shape = new CircleShape();
         shape.setRadius(6 / Main.PPM);
         fdef.filter.categoryBits = Main.MARIO_BIT;
-        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.DEFAULT_BIT;
+        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.ENEMY_BIT | Main.OBJECT_BIT;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);

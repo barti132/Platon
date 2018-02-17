@@ -30,10 +30,10 @@ public class Map{
             for(MapObject object : map.getLayers().get(i).getObjects().getByType(RectangleMapObject.class)){
                 switch(i){
                     case 2:
-                        new Ground(object, world);
+                        new Ground(object, world, this);
                         break;
                     case 3:
-                        new Pipe(object, world);
+                        new Pipe(object, world, this);
                         break;
                     case 4:
                         new Coin(object, world, this);

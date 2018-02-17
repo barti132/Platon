@@ -7,7 +7,7 @@ import game.Hud;
 import game.Main;
 import game.Map;
 
-public class Brick extends InteractiveObject{
+public class Brick extends Object {
     public Brick(MapObject object, World world, Map map){
         super(object, world, map);
         fixture.setUserData(this);

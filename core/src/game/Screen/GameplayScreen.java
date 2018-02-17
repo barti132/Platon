@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import game.*;
+import game.Character.Goomba;
+import game.Character.Player;
 
 /**
  * Created by barti on 06.12.2017.
@@ -21,6 +23,7 @@ public class GameplayScreen extends AbstractScreen{
     private TextureAtlas atlas;
     private Hud hud;
     private Music music;
+    private Goomba goomba;
 
     public GameplayScreen(){
         world = new World(new Vector2(0, -10f), true);
@@ -31,6 +34,7 @@ public class GameplayScreen extends AbstractScreen{
         render = map.loadMap("1-1test.tmx", world);
         hud = new Hud(batch);
         music = Main.manager.get("audio/mario_music.ogg", Music.class);
+        goomba = new Goomba(world, atlas, .32f, .32f);
 
         music.setLooping(true);
         music.play();
@@ -47,10 +51,9 @@ public class GameplayScreen extends AbstractScreen{
         render.render();
         renderDebug.render(world, camera.combined);
 
-
-
         batch.begin();
         player.draw(batch);
+        goomba.draw(batch);
         batch.end();
 
         hud.getStage().draw();
@@ -59,6 +62,7 @@ public class GameplayScreen extends AbstractScreen{
     private void update(float delta){
         world.step(1 / 120f, 8, 3);
         player.update(delta);
+        goomba.update(delta);
         camera.position.x = player.getBody().getPosition().x;
         camera.update();
         render.setView(camera);

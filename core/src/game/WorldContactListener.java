@@ -1,7 +1,7 @@
 package game;
 
 import com.badlogic.gdx.physics.box2d.*;
-import game.Block.InteractiveObject;
+import game.Block.Object;
 
 public class WorldContactListener implements ContactListener{
     @Override
@@ -13,8 +13,8 @@ public class WorldContactListener implements ContactListener{
             Fixture head = fixA.getUserData() == "head" ? fixA : fixB;
             Fixture object = head == fixA ? fixB : fixA;
 
-            if(object.getUserData() instanceof InteractiveObject){
-                ((InteractiveObject) object.getUserData()).onHeadHit();
+            if(object.getUserData() instanceof Object){
+                ((Object) object.getUserData()).onHeadHit();
             }
         }
     }

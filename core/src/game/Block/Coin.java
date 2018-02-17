@@ -8,7 +8,7 @@ import game.Hud;
 import game.Main;
 import game.Map;
 
-public class Coin extends InteractiveObject{
+public class Coin extends Object {
 
     private static TiledMapTileSet tileSet;
     private final int BLANK_COIN = 27;
