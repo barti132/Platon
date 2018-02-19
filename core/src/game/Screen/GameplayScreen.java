@@ -34,7 +34,7 @@ public class GameplayScreen extends AbstractScreen{
         render = map.loadMap("1-1test.tmx", world);
         hud = new Hud(batch);
         music = Main.manager.get("audio/mario_music.ogg", Music.class);
-        goomba = new Goomba(world, atlas, .32f, .32f);
+        goomba = new Goomba(world, atlas, .64f, .32f);
 
         music.setLooping(true);
         music.play();

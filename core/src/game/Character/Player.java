@@ -69,7 +69,7 @@ public class Player extends Sprite{
         CircleShape shape = new CircleShape();
         shape.setRadius(6 / Main.PPM);
         fdef.filter.categoryBits = Main.MARIO_BIT;
-        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.ENEMY_BIT | Main.OBJECT_BIT;
+        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.ENEMY_BIT | Main.OBJECT_BIT | Main.ENEMY_HEAD_BIT;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
