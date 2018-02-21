@@ -6,9 +6,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import game.*;
-import game.Character.Goomba;
+import game.Character.Enemy;
 import game.Character.Player;
+import game.Hud;
+import game.Main;
+import game.Map;
+import game.WorldContactListener;
 
 /**
  * Created by barti on 06.12.2017.
@@ -23,7 +26,6 @@ public class GameplayScreen extends AbstractScreen{
     private TextureAtlas atlas;
     private Hud hud;
     private Music music;
-    private Goomba goomba;
 
     public GameplayScreen(){
         world = new World(new Vector2(0, -10f), true);
@@ -31,10 +33,9 @@ public class GameplayScreen extends AbstractScreen{
         atlas = new TextureAtlas("mario_and_enemies.atlas");
         player = new Player(world, atlas);
         map = new Map();
-        render = map.loadMap("1-1test.tmx", world);
+        render = map.loadMap("1-1test.tmx", world, atlas);
         hud = new Hud(batch);
         music = Main.manager.get("audio/mario_music.ogg", Music.class);
-        goomba = new Goomba(world, atlas, 5.64f, .32f);
 
         music.setLooping(true);
         music.play();
@@ -48,12 +49,16 @@ public class GameplayScreen extends AbstractScreen{
 
         player.move();
 
+
         render.render();
         renderDebug.render(world, camera.combined);
 
         batch.begin();
+
         player.draw(batch);
-        goomba.draw(batch);
+        for(Enemy enemy : map.getGoombas())
+            enemy.draw(batch);
+
         batch.end();
 
         hud.getStage().draw();
@@ -62,9 +67,13 @@ public class GameplayScreen extends AbstractScreen{
     private void update(float delta){
         world.step(1 / 120f, 8, 3);
         player.update(delta);
-        goomba.update(delta);
+
+        for(Enemy enemy : map.getGoombas())
+            enemy.update(delta);
+
         camera.position.x = player.getBody().getPosition().x;
         camera.update();
+
         render.setView(camera);
         batch.setProjectionMatrix(camera.combined);
         hud.update(delta);

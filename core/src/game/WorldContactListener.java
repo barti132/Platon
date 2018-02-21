@@ -34,12 +34,25 @@ public class WorldContactListener implements ContactListener{
                     ((Enemy)fixB.getUserData()).hitOnHead();
                 break;
 
-            case Main.ENEMY_BIT | Main.OBJECT_BIT:
+            case Main.ENEMY_BIT | Main.OBJECT_BIT :
                 if(fixA.getFilterData().categoryBits == Main.ENEMY_BIT)
                     ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
 
                 else
                     ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
+            case Main.ENEMY_BIT | Main.BRICK_BIT:
+                if(fixA.getFilterData().categoryBits == Main.ENEMY_BIT)
+                ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
+
+                else
+                ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
+            case Main.ENEMY_BIT | Main.ENEMY_BIT:
+                ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
+                ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
                 break;
 
             case Main.MARIO_BIT | Main.ENEMY_BIT:

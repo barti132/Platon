@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -19,8 +20,8 @@ public class Goomba extends Enemy {
     private boolean destroyed;
     private TextureRegion goomba;
 
-    public Goomba(World world, TextureAtlas atlas, float x, float y) {
-        super(world, x, y);
+    public Goomba(World world, TextureAtlas atlas, MapObject object) {
+        super(world, object);
         goomba = atlas.findRegion("goomba");
 
         frames = new Array<TextureRegion>();
@@ -35,6 +36,7 @@ public class Goomba extends Enemy {
         destroyed = false;
     }
 
+    @Override
     public void update(float delta){
         stateTime += delta;
 
@@ -63,7 +65,7 @@ public class Goomba extends Enemy {
         CircleShape shape = new CircleShape();
         shape.setRadius(6 / Main.PPM);
         fdef.filter.categoryBits = Main.ENEMY_BIT;
-        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.MARIO_BIT | Main.OBJECT_BIT;
+        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.MARIO_BIT | Main.OBJECT_BIT | Main.ENEMY_BIT;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
