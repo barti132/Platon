@@ -1,5 +1,6 @@
 package game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import game.Block.Object;
 import game.Character.Enemy;
@@ -29,8 +30,21 @@ public class WorldContactListener implements ContactListener{
                 if(fixA.getFilterData().categoryBits == Main.ENEMY_HEAD_BIT)
                     ((Enemy)fixA.getUserData()).hitOnHead();
 
-                else if(fixB.getFilterData().categoryBits == Main.ENEMY_HEAD_BIT)
+                else
                     ((Enemy)fixB.getUserData()).hitOnHead();
+                break;
+
+            case Main.ENEMY_BIT | Main.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == Main.ENEMY_BIT)
+                    ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
+
+                else
+                    ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
+            case Main.MARIO_BIT | Main.ENEMY_BIT:
+                    System.out.println("MARIO: DIED");
+                    break;
         }
 
     }

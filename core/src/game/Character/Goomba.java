@@ -1,6 +1,7 @@
 package game.Character;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -41,9 +42,11 @@ public class Goomba extends Enemy {
             world.destroyBody(body);
             destroyed = true;
             setRegion(new TextureRegion(goomba, 32, 0, 16, 16));
+            stateTime = 0;
         }
 
         else if(!destroyed) {
+            body.setLinearVelocity(velocity);
             setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
             setRegion(walkAnimation.getKeyFrame(stateTime, true));
         }
@@ -63,7 +66,7 @@ public class Goomba extends Enemy {
         fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.MARIO_BIT | Main.OBJECT_BIT;
 
         fdef.shape = shape;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData(this);
 
         PolygonShape head = new PolygonShape();
         Vector2[] vertice = new Vector2[4];
@@ -77,6 +80,11 @@ public class Goomba extends Enemy {
         fdef.restitution = 0.5f;
         fdef.filter.categoryBits = Main.ENEMY_HEAD_BIT;
         body.createFixture(fdef).setUserData(this);
+    }
+
+    public void draw(Batch batch){
+        if(!destroyed || stateTime < 1)
+            super.draw(batch);
     }
 
     @Override
