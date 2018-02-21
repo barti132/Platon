@@ -20,7 +20,8 @@ public abstract class Enemy extends Sprite {
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
         setPosition(rect.getX() / Main.PPM, rect.getY() / Main.PPM);
         defineEnemy();
-        velocity = new Vector2(0.6f, -0.5f);
+        velocity = new Vector2(-1f, -2f);
+        body.setActive(false);
     }
 
     protected abstract void defineEnemy();

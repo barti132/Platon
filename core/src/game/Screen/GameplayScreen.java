@@ -68,8 +68,12 @@ public class GameplayScreen extends AbstractScreen{
         world.step(1 / 120f, 8, 3);
         player.update(delta);
 
-        for(Enemy enemy : map.getGoombas())
+        for(Enemy enemy : map.getGoombas()) {
             enemy.update(delta);
+
+            if(enemy.getX() < player.getX() + 240)
+                enemy.body.setActive(true);
+        }
 
         camera.position.x = player.getBody().getPosition().x;
         camera.update();
