@@ -14,6 +14,7 @@ import game.Block.Coin;
 import game.Block.Ground;
 import game.Block.Pipe;
 import game.Character.Goomba;
+import game.Screen.GameplayScreen;
 
 /**
  * Created by barti on 27.12.2017.
@@ -22,9 +23,12 @@ public class Map{
     private TiledMap map;
     private Array<Goomba> goombas;
 
-    public OrthogonalTiledMapRenderer loadMap(String mapName, World world, TextureAtlas atlas){
+    private GameplayScreen screen;
+
+    public OrthogonalTiledMapRenderer loadMap(String mapName, World world, TextureAtlas atlas, GameplayScreen screen){
         map = new TmxMapLoader().load(mapName);
         goombas = new Array<Goomba>();
+        this.screen = screen;
         OrthogonalTiledMapRenderer mapRenderer = new OrthogonalTiledMapRenderer(map, 1f / Main.PPM);
         createPhysicalObject(world, atlas);
         return mapRenderer;
@@ -41,7 +45,7 @@ public class Map{
                         new Pipe(object, world, this);
                         break;
                     case 4:
-                        new Coin(object, world, this);
+                        new Coin(object, world, this, screen);
                         break;
                     case 5:
                         new Brick(object, world, this);

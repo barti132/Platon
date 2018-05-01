@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import game.Main;
 import game.Map;
+import game.Screen.GameplayScreen;
 
 public abstract class Object {
 
