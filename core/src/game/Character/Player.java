@@ -69,7 +69,7 @@ public class Player extends Sprite{
         CircleShape shape = new CircleShape();
         shape.setRadius(6 / Main.PPM);
         fdef.filter.categoryBits = Main.MARIO_BIT;
-        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.ENEMY_BIT | Main.OBJECT_BIT | Main.ENEMY_HEAD_BIT;
+        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.ENEMY_BIT | Main.OBJECT_BIT | Main.ENEMY_HEAD_BIT | Main.ITEM_BIT;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
@@ -77,8 +77,9 @@ public class Player extends Sprite{
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / Main.PPM, 6 / Main.PPM), new Vector2(2 / Main.PPM, 6 / Main.PPM));
         fdef.shape = head;
+        fdef.filter.categoryBits = Main.PLAYER__HEAD_BIT;
         fdef.isSensor = true;
-        body.createFixture(fdef).setUserData("head");
+        body.createFixture(fdef).setUserData(this);
     }
 
     public void update(float delta){

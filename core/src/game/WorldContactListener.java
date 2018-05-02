@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import game.Block.Object;
 import game.Character.Enemy;
+import game.Character.Player;
+import game.Items.Item;
 
 public class WorldContactListener implements ContactListener{
 
@@ -16,16 +18,21 @@ public class WorldContactListener implements ContactListener{
 
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
-        if(fixA.getUserData() == "head" || fixB.getUserData() == "head"){
-            Fixture head = fixA.getUserData() == "head" ? fixA : fixB;
-            Fixture object = head == fixA ? fixB : fixA;
-
-            if(object.getUserData() instanceof Object){
-                ((Object) object.getUserData()).onHeadHit();
-            }
-        }
-
         switch (cDef){
+            case Main.BRICK_BIT | Main.PLAYER__HEAD_BIT:
+                if(fixA.getFilterData().categoryBits == Main.PLAYER__HEAD_BIT)
+                    ((Object)(fixB.getUserData())).onHeadHit();
+                else
+                    ((Object)(fixA.getUserData())).onHeadHit();
+                break;
+
+            case Main.COIN_BIT | Main.PLAYER__HEAD_BIT:
+                if(fixA.getFilterData().categoryBits == Main.PLAYER__HEAD_BIT)
+                    ((Object)(fixB.getUserData())).onHeadHit();
+                else
+                    ((Object)(fixA.getUserData())).onHeadHit();
+                break;
+
             case Main.ENEMY_HEAD_BIT | Main.MARIO_BIT:
                 if(fixA.getFilterData().categoryBits == Main.ENEMY_HEAD_BIT)
                     ((Enemy)fixA.getUserData()).hitOnHead();
@@ -53,6 +60,22 @@ public class WorldContactListener implements ContactListener{
             case Main.ENEMY_BIT | Main.ENEMY_BIT:
                 ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
                 ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
+            case Main.ITEM_BIT | Main.OBJECT_BIT :
+                if(fixA.getFilterData().categoryBits == Main.ITEM_BIT)
+                    ((Item)fixA.getUserData()).reverseVelocity(true, false);
+
+                else
+                    ((Item)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
+            case Main.ITEM_BIT | Main.MARIO_BIT:
+                if(fixA.getFilterData().categoryBits == Main.ITEM_BIT)
+                    ((Item)fixA.getUserData()).use((Player) fixB.getUserData());
+
+                else
+                    ((Item)fixB.getUserData()).use((Player) fixA.getUserData());
                 break;
 
             case Main.MARIO_BIT | Main.ENEMY_BIT:
