@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.1" orientation="orthogonal" renderorder="left-down" width="211" height="16" tilewidth="16" tileheight="16" infinite="0" nextobjectid="176">
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="left-down" width="211" height="16" tilewidth="16" tileheight="16" infinite="0" nextobjectid="176">
  <tileset firstgid="1" source="tilesheet1.tsx"/>
  <layer name="ground" width="211" height="16">
   <data encoding="base64" compression="zlib">
    eJzt1+EOgiAUhmGtVnfQ/OX931rdQf9ySzZ3PMiRIEjeZ2M6BUTsS+w6AAAAAAAAm1fpAQAHce9Lj+BjKD2AHzgFiq/uN3MT03ZrXO78MBft/FGNc/GpJUtAzUax1ZAlYNvo2ZfIEpZaWrNZyOzUlCW5fndr7+U2p8dUnonqXQz9pLiv80bf2hgGw77W154xhupb/8u1drFtHfmtGTv32rVrylJuoQxcp/u9Ge7ZWg9rWh4smdC+SaxtU/Nd8yhZsrwrQhkgS3n58iCP+drtbWtdZ4Qs+7GOU/qnLFl+32SpnFAe5L7v2J62qZ6T6yf0DozNmU9PUUvM/DCnbc8L1uTzz9WmBS3NyxsUkBUD
   </data>
  </layer>
- <layer name="background" width="211" height="16">
+ <layer name="background" width="211" height="16" locked="1">
   <data encoding="base64" compression="zlib">
    eJztlktSwzAMhpWu6SN0nz1wDtpV4Q7A/WeAC+AsPGMc1XUsW5ZrfTOaSZyHfimSHID74XUDcDJ23oTvu5jrb8beb9y3xmeMXy5NOaihR1IOYrWU1JyrtlL4MP4+jX0x+rU+uf26eebMNfX7xs67e4ESb63a6g03z5y5pn7fGvOuJrXjDfVy6Xnc29xsCY69OGbfbalGQr1ceh6XmiMt5V8qHHtxzL5be6/pHQn5l97P0vUpikVCP4eQrk9RlCUT4dkHxBSlRyag9dLW2N7YzjlWlN6YQHtJUahMQO+l+X/uCTH/P+8n8f2SaCWGVnTGgsVDmf258fsoVdvOsWfv3PI9nw8AvyvfLakmUmOwcMVC1TnDpRWrOX8Ni+davWJrpWPB+ihHL73AspdsLvbGDsg3Hs3ao2PH4f9zMTUxes+uZUT8u9yKIWcsFL2xOkN6ufLu1pz176/78bjXr/WSXY+NJUcMXL2kKAqdQW1hKTnSvGpe/gCm2lbs
   </data>
@@ -57,11 +57,19 @@
   <object id="37" x="2608" y="192" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="coins">
-  <object id="38" x="240" y="160" width="16" height="16"/>
+  <object id="38" x="240" y="160" width="16" height="16">
+   <properties>
+    <property name="mushroom" value=""/>
+   </properties>
+  </object>
   <object id="39" x="320" y="160" width="16" height="16"/>
   <object id="40" x="352" y="160" width="16" height="16"/>
   <object id="41" x="336" y="96" width="16" height="16"/>
-  <object id="42" x="1216" y="160" width="16" height="16"/>
+  <object id="42" x="1216" y="160" width="16" height="16">
+   <properties>
+    <property name="mushroom" value=""/>
+   </properties>
+  </object>
   <object id="43" x="1472" y="96" width="16" height="16"/>
   <object id="44" x="1664" y="160" width="16" height="16"/>
   <object id="45" x="1712" y="160" width="16" height="16"/>

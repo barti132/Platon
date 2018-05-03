@@ -12,6 +12,7 @@ import game.Screen.GameplayScreen;
 public abstract class Object {
 
     private Map map;
+    protected MapObject object;
     protected Body body;
     protected Fixture fixture;
 
@@ -21,6 +22,7 @@ public abstract class Object {
         FixtureDef fdef = new FixtureDef();
 
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        this.object = object;
 
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set((rect.getX() + rect.getWidth() / 2) / Main.PPM, (rect.getY() + rect.getHeight() / 2) / Main.PPM);
