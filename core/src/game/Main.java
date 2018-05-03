@@ -31,6 +31,8 @@ public class Main extends Game{
 		manager.load("audio/coin.wav", Sound.class);
 		manager.load("audio/bump.wav", Sound.class);
 		manager.load("audio/breakblock.wav", Sound.class);
+		manager.load("audio/powerup_spawn.wav", Sound.class);
+		manager.load("audio/powerup.wav", Sound.class);
 		manager.finishLoading();
 
 		game.setScreen(new GameplayScreen());

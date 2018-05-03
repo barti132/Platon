@@ -36,11 +36,15 @@ public class Coin extends Object {
         else{
             if(object.getProperties().containsKey("mushroom")){
                 screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 16 / Main.PPM), Mushroom.class));
+                Main.manager.get("audio/powerup_spawn.wav", Sound.class).play();
             }
-            Main.manager.get("audio/coin.wav", Sound.class).play();
+            else
+                Main.manager.get("audio/coin.wav", Sound.class).play();
+
             getCell().setTile(tileSet.getTile(BLANK_COIN));
             Hud.addScore(200);
         }
+
     }
 
 }
