@@ -93,7 +93,8 @@ public class GameplayScreen extends AbstractScreen{
         for(Item item : items)
             item.update(delta);
 
-        camera.position.x = player.getBody().getPosition().x;
+        if(player.currentState != Player.State.DEAD)
+            camera.position.x = player.getBody().getPosition().x;
         camera.update();
 
         render.setView(camera);

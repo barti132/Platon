@@ -1,5 +1,6 @@
 package game.Character;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -92,5 +93,6 @@ public class Goomba extends Enemy {
     @Override
     public void hitOnHead() {
         setToDestroy = true;
+        Main.manager.get("audio/stomp.wav", Sound.class).play();
     }
 }

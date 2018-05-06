@@ -73,8 +73,11 @@ public class WorldContactListener implements ContactListener{
                 break;
 
             case Main.MARIO_BIT | Main.ENEMY_BIT:
-                    System.out.println("MARIO: DIED");
-                    break;
+                if(fixA.getFilterData().categoryBits == Main.MARIO_BIT)
+                    ((Player) fixA.getUserData()).hit();
+                else
+                    ((Player) fixB.getUserData()).hit();
+                break;
         }
 
     }

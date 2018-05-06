@@ -2,6 +2,7 @@ package game.Character;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -21,12 +22,13 @@ public class Player extends Sprite{
     private Body body;
     private World world;
     private TextureRegion marioStand;
-    private enum State {STANDING, FALLING, JUMPING, RUNNING, GROWING};
-    private State currentState;
+    public enum State {STANDING, FALLING, JUMPING, RUNNING, GROWING, DEAD};
+    public State currentState;
     private State previousState;
 
     private Animation marioRun;
     private TextureRegion marioJump;
+    private TextureRegion marioDead;
     private TextureRegion bigMarioStand;
     private TextureRegion bigMarioJump;
     private Animation bigMarioRun;
@@ -37,6 +39,8 @@ public class Player extends Sprite{
     private boolean marioIsBig;
     private boolean runGrowAnimation;
     private boolean timeToDefineBigMario;
+    private boolean timeToRedefineMario;
+    private boolean marioIsDead;
 
     public Player(World world, TextureAtlas atlas){
         this.world = world;
@@ -47,6 +51,7 @@ public class Player extends Sprite{
         bigMarioStand = new TextureRegion(atlas.findRegion("big_mario"), 96, 0, 16, 32);
         marioJump = new TextureRegion(atlas.findRegion("small_mario"), 64, 0, 16, 16);
         bigMarioJump = new TextureRegion(atlas.findRegion("big_mario"), 64, 0, 16, 32);
+        marioDead = new TextureRegion(atlas.findRegion("small_mario"), 80, 0, 16, 16);
         setRegion(marioStand);
 
         setTexture(new Texture("mario_and_enemies.png"));
@@ -132,6 +137,34 @@ public class Player extends Sprite{
         timeToDefineBigMario = false;
     }
 
+    public void redefineMario(){
+        Vector2 currentPosition = body.getPosition();
+        world.destroyBody(body);
+
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(currentPosition);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        body = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(6 / Main.PPM);
+        fdef.filter.categoryBits = Main.MARIO_BIT;
+        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.ENEMY_BIT | Main.OBJECT_BIT | Main.ENEMY_HEAD_BIT | Main.ITEM_BIT;
+
+        fdef.shape = shape;
+        body.createFixture(fdef).setUserData(this);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / Main.PPM, 6 / Main.PPM), new Vector2(2 / Main.PPM, 6 / Main.PPM));
+        fdef.shape = head;
+        fdef.filter.categoryBits = Main.PLAYER__HEAD_BIT;
+        fdef.isSensor = true;
+        body.createFixture(fdef).setUserData(this);
+
+        timeToRedefineMario = false;
+    }
+
     public void update(float delta){
         if(marioIsBig)
             setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 - 6 / Main.PPM);
@@ -141,6 +174,9 @@ public class Player extends Sprite{
         setRegion(getFrame(delta));
         if(timeToDefineBigMario)
             defineBigMario();
+
+        if(timeToRedefineMario)
+            redefineMario();
     }
 
     private TextureRegion getFrame(float delta){
@@ -148,6 +184,10 @@ public class Player extends Sprite{
         TextureRegion region;
 
         switch(currentState){
+            case DEAD:
+                region = marioDead;
+                break;
+
             case GROWING:
                 region = growMario.getKeyFrame(stateTimer);
                 if(growMario.isAnimationFinished(stateTimer))
@@ -186,10 +226,13 @@ public class Player extends Sprite{
     }
 
     private State getState(){
-        if(runGrowAnimation)
+        if(marioIsDead)
+            return State.DEAD;
+
+        else if(runGrowAnimation)
             return State.GROWING;
 
-        if(body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
+        else if(body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
             return State.JUMPING;
 
         else if(body.getLinearVelocity().y < 0)
@@ -203,14 +246,16 @@ public class Player extends Sprite{
     }
 
     public void move(){
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? (body.getLinearVelocity().x < 2) : (body.getLinearVelocity().x < 1)))
-            body.setLinearVelocity(new Vector2(body.getLinearVelocity().x + 0.1f, body.getLinearVelocity().y));
+        if(!marioIsDead) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? (body.getLinearVelocity().x < 2) : (body.getLinearVelocity().x < 1)))
+                body.setLinearVelocity(new Vector2(body.getLinearVelocity().x + 0.1f, body.getLinearVelocity().y));
 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? (body.getLinearVelocity().x > -2) : (body.getLinearVelocity().x > -1)))
-            body.setLinearVelocity(new Vector2(body.getLinearVelocity().x - 0.1f, body.getLinearVelocity().y));
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? (body.getLinearVelocity().x > -2) : (body.getLinearVelocity().x > -1)))
+                body.setLinearVelocity(new Vector2(body.getLinearVelocity().x - 0.1f, body.getLinearVelocity().y));
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && currentState != State.FALLING && currentState != State.JUMPING)
-            body.applyLinearImpulse(new Vector2(0, 4f), body.getWorldCenter(), true);
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && currentState != State.FALLING && currentState != State.JUMPING)
+                body.applyLinearImpulse(new Vector2(0, 4f), body.getWorldCenter(), true);
+        }
     }
 
     public void grow(){
@@ -219,6 +264,27 @@ public class Player extends Sprite{
         timeToDefineBigMario = true;
         setBounds(getX(), getY(), getWidth(), getHeight()*2);
         Main.manager.get("audio/powerup.wav", Sound.class).play();
+    }
+
+    public void hit(){
+        if(marioIsBig){
+            marioIsBig = false;
+            timeToRedefineMario = true;
+            setBounds(getX(), getY(), getWidth(), getHeight() / 2);
+            Main.manager.get("audio/powerdown.wav", Sound.class).play();
+        }
+        else {
+            Main.manager.get("audio/mario_music.ogg", Music.class).stop();
+            Main.manager.get("audio/mariodie.wav", Sound.class).play();
+            marioIsDead = true;
+            Filter filter = new Filter();
+            filter.maskBits = Main.NOTHING_BIT;
+
+            for(Fixture fixture : body.getFixtureList())
+                fixture.setFilterData(filter);
+
+            body.applyLinearImpulse(new Vector2(0, 4f), body.getWorldCenter(), true);
+        }
     }
 
     public Body getBody(){

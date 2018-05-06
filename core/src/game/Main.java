@@ -10,6 +10,7 @@ public class Main extends Game{
 
 	public static final float PPM = 100f;
 
+	public static final short NOTHING_BIT = 0;
 	public static final short GROUND_BIT = 1;
 	public static final short MARIO_BIT = 2;
 	public static final short BRICK_BIT = 4;
@@ -33,6 +34,9 @@ public class Main extends Game{
 		manager.load("audio/breakblock.wav", Sound.class);
 		manager.load("audio/powerup_spawn.wav", Sound.class);
 		manager.load("audio/powerup.wav", Sound.class);
+		manager.load("audio/powerdown.wav", Sound.class);
+		manager.load("audio/stomp.wav", Sound.class);
+		manager.load("audio/mariodie.wav", Sound.class);
 		manager.finishLoading();
 
 		game.setScreen(new GameplayScreen());
