@@ -19,6 +19,7 @@ import game.Main;
 public class Player extends Sprite{
 
     private Body body;
+    private World world;
     private TextureRegion marioStand;
     private enum State {STANDING, FALLING, JUMPING, RUNNING, GROWING};
     private State currentState;
@@ -35,9 +36,11 @@ public class Player extends Sprite{
     private boolean runningRight;
     private boolean marioIsBig;
     private boolean runGrowAnimation;
+    private boolean timeToDefineBigMario;
 
     public Player(World world, TextureAtlas atlas){
-        createBox2DMario(world);
+        this.world = world;
+        defineSmallMario();
         setBounds(0, 0, 16 / Main.PPM, 16 / Main.PPM);
 
         marioStand = new TextureRegion(atlas.findRegion("small_mario"), 96, 0, 16, 16);
@@ -77,7 +80,7 @@ public class Player extends Sprite{
         frames.clear();
     }
 
-    private void createBox2DMario(World world){
+    private void defineSmallMario(){
         BodyDef bdef = new BodyDef();
         bdef.position.set(32f / Main.PPM, 32f / Main.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -100,9 +103,44 @@ public class Player extends Sprite{
         body.createFixture(fdef).setUserData(this);
     }
 
+    public void defineBigMario(){
+        Vector2 currentPosition = body.getPosition();
+        world.destroyBody(body);
+
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(currentPosition.add(0, 10 / Main.PPM));
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        body = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(6 / Main.PPM);
+        fdef.filter.categoryBits = Main.MARIO_BIT;
+        fdef.filter.maskBits = Main.BRICK_BIT | Main.COIN_BIT | Main.GROUND_BIT | Main.ENEMY_BIT | Main.OBJECT_BIT | Main.ENEMY_HEAD_BIT | Main.ITEM_BIT;
+        fdef.shape = shape;
+        body.createFixture(fdef).setUserData(this);
+        shape.setPosition(new Vector2(0, -14 / Main.PPM));
+        body.createFixture(fdef).setUserData(this);
+
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / Main.PPM, 6 / Main.PPM), new Vector2(2 / Main.PPM, 6 / Main.PPM));
+        fdef.shape = head;
+        fdef.filter.categoryBits = Main.PLAYER__HEAD_BIT;
+        fdef.isSensor = true;
+        body.createFixture(fdef).setUserData(this);
+        timeToDefineBigMario = false;
+    }
+
     public void update(float delta){
-        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+        if(marioIsBig)
+            setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 - 6 / Main.PPM);
+        else
+            setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+
         setRegion(getFrame(delta));
+        if(timeToDefineBigMario)
+            defineBigMario();
     }
 
     private TextureRegion getFrame(float delta){
@@ -178,6 +216,7 @@ public class Player extends Sprite{
     public void grow(){
         runGrowAnimation = true;
         marioIsBig = true;
+        timeToDefineBigMario = true;
         setBounds(getX(), getY(), getWidth(), getHeight()*2);
         Main.manager.get("audio/powerup.wav", Sound.class).play();
     }
@@ -186,4 +225,7 @@ public class Player extends Sprite{
         return body;
     }
 
+    public boolean isMarioIsBig() {
+        return marioIsBig;
+    }
 }

@@ -2,6 +2,7 @@ package game.Block;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.World;
+import game.Character.Player;
 import game.Main;
 import game.Map;
 
@@ -13,6 +14,8 @@ public class Pipe extends Object {
 
     @Override
     public void onHeadHit() {
-
+    }
+    @Override
+    public void onHeadHit(Player player) {
     }
 }

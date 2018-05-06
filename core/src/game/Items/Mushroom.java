@@ -37,7 +37,8 @@ public class Mushroom extends Item {
     @Override
     public void use(Player player) {
         destroy();
-        player.grow();
+        if(!player.isMarioIsBig())
+            player.grow();
     }
 
     @Override

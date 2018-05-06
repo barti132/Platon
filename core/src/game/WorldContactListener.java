@@ -20,17 +20,11 @@ public class WorldContactListener implements ContactListener{
 
         switch (cDef){
             case Main.BRICK_BIT | Main.PLAYER__HEAD_BIT:
-                if(fixA.getFilterData().categoryBits == Main.PLAYER__HEAD_BIT)
-                    ((Object)(fixB.getUserData())).onHeadHit();
-                else
-                    ((Object)(fixA.getUserData())).onHeadHit();
-                break;
-
             case Main.COIN_BIT | Main.PLAYER__HEAD_BIT:
                 if(fixA.getFilterData().categoryBits == Main.PLAYER__HEAD_BIT)
-                    ((Object)(fixB.getUserData())).onHeadHit();
+                    ((Object)(fixB.getUserData())).onHeadHit((Player) fixA.getUserData());
                 else
-                    ((Object)(fixA.getUserData())).onHeadHit();
+                    ((Object)(fixA.getUserData())).onHeadHit((Player) fixB.getUserData());
                 break;
 
             case Main.ENEMY_HEAD_BIT | Main.MARIO_BIT:

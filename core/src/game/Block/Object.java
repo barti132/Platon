@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import game.Character.Player;
 import game.Main;
 import game.Map;
 import game.Screen.GameplayScreen;
@@ -37,6 +38,8 @@ public abstract class Object {
     }
 
     public abstract void onHeadHit();
+    public abstract void onHeadHit(Player player);
+
     protected void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
