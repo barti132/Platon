@@ -16,9 +16,8 @@ import game.Screen.GameplayScreen;
 public class Coin extends Object {
 
     private static TiledMapTileSet tileSet;
-    private final int BLANK_COIN = 27;
 
-    private GameplayScreen screen;
+    private final GameplayScreen screen;
 
     public Coin(MapObject object, World world, Map map, GameplayScreen screen){
         super(object, world, map);
@@ -35,6 +34,7 @@ public class Coin extends Object {
 
     @Override
     public void onHeadHit(Player player){
+        int BLANK_COIN = 27;
         if(getCell().getTile().getId() == BLANK_COIN)
             Main.manager.get("audio/bump.wav", Sound.class).play();
 

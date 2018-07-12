@@ -1,6 +1,5 @@
 package game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import game.Block.Object;
 import game.Character.Enemy;

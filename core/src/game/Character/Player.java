@@ -20,17 +20,18 @@ import game.Main;
 public class Player extends Sprite{
 
     private Body body;
-    private World world;
-    private TextureRegion marioStand;
-    public enum State {STANDING, FALLING, JUMPING, RUNNING, GROWING, DEAD};
+    private final World world;
+    private final TextureRegion marioStand;
+    public enum State {STANDING, FALLING, JUMPING, RUNNING, GROWING, DEAD}
+
     public State currentState;
     private State previousState;
 
     private Animation marioRun;
-    private TextureRegion marioJump;
-    private TextureRegion marioDead;
-    private TextureRegion bigMarioStand;
-    private TextureRegion bigMarioJump;
+    private final TextureRegion marioJump;
+    private final TextureRegion marioDead;
+    private final TextureRegion bigMarioStand;
+    private final TextureRegion bigMarioJump;
     private Animation bigMarioRun;
     private Animation growMario;
 
@@ -108,7 +109,7 @@ public class Player extends Sprite{
         body.createFixture(fdef).setUserData(this);
     }
 
-    public void defineBigMario(){
+    private void defineBigMario(){
         Vector2 currentPosition = body.getPosition();
         world.destroyBody(body);
 
@@ -137,7 +138,7 @@ public class Player extends Sprite{
         timeToDefineBigMario = false;
     }
 
-    public void redefineMario(){
+    private void redefineMario(){
         Vector2 currentPosition = body.getPosition();
         world.destroyBody(body);
 
@@ -293,5 +294,13 @@ public class Player extends Sprite{
 
     public boolean isMarioIsBig() {
         return marioIsBig;
+    }
+
+    public boolean isMarioIsDead() {
+        return marioIsDead;
+    }
+
+    public float getStateTimer() {
+        return stateTimer;
     }
 }

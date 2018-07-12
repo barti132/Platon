@@ -8,16 +8,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import game.Character.Player;
 import game.Main;
 import game.Map;
-import game.Screen.GameplayScreen;
 
 public abstract class Object {
 
-    private Map map;
-    protected MapObject object;
-    protected Body body;
-    protected Fixture fixture;
+    private final Map map;
+    final MapObject object;
+    final Body body;
+    final Fixture fixture;
 
-    public Object(MapObject object, World world, Map m){
+    Object(MapObject object, World world, Map m){
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
@@ -40,13 +39,13 @@ public abstract class Object {
     public abstract void onHeadHit();
     public abstract void onHeadHit(Player player);
 
-    protected void setCategoryFilter(short filterBit){
+    void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);
     }
 
-    protected TiledMapTileLayer.Cell getCell(){
+    TiledMapTileLayer.Cell getCell(){
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getTiledMap().getLayers().get(0);
         return layer.getCell((int)(body.getPosition().x * Main.PPM / 16), (int)(body.getPosition().y * Main.PPM / 16));
     }

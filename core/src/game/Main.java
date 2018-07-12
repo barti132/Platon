@@ -39,7 +39,7 @@ public class Main extends Game{
 		manager.load("audio/mariodie.wav", Sound.class);
 		manager.finishLoading();
 
-		game.setScreen(new GameplayScreen());
+		game.setScreen(new GameplayScreen(game));
 	}
 
 }

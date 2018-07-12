@@ -15,17 +15,16 @@ import game.Main;
 public class Goomba extends Enemy {
 
     private float stateTime;
-    private Animation walkAnimation;
-    private Array<TextureRegion> frames;
+    private final Animation walkAnimation;
     private boolean setToDestroy;
     private boolean destroyed;
-    private TextureRegion goomba;
+    private final TextureRegion goomba;
 
     public Goomba(World world, TextureAtlas atlas, MapObject object) {
         super(world, object);
         goomba = atlas.findRegion("goomba");
 
-        frames = new Array<TextureRegion>();
+        Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i = 0; i < 2; i++)
             frames.add(new TextureRegion(goomba, i * 16, 0, 16, 16));
 

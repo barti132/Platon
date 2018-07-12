@@ -11,11 +11,11 @@ import game.Main;
 
 public abstract class Enemy extends Sprite {
 
-    protected World world;
+    final World world;
     public Body body;
-    public Vector2 velocity;
+    final Vector2 velocity;
 
-    public Enemy(World world, MapObject object){
+    Enemy(World world, MapObject object){
         this.world = world;
         Rectangle rect = ((RectangleMapObject) object).getRectangle();
         setPosition(rect.getX() / Main.PPM, rect.getY() / Main.PPM);

@@ -10,14 +10,14 @@ import game.Character.Player;
 import game.Main;
 
 public abstract class Item extends Sprite {
-    protected World world;
-    protected TextureAtlas atlas;
-    protected Vector2 velocity;
-    protected boolean toDestroy;
-    protected boolean destroyed;
-    protected Body body;
+    final World world;
+    private final TextureAtlas atlas;
+    Vector2 velocity;
+    private boolean toDestroy;
+    private boolean destroyed;
+    Body body;
 
-    public Item(World world, TextureAtlas atlas, float x, float y){
+    Item(World world, TextureAtlas atlas, float x, float y){
         this.world = world;
         this.atlas = atlas;
         setPosition(x, y);
@@ -27,7 +27,7 @@ public abstract class Item extends Sprite {
         destroyed = false;
     }
 
-    public abstract void defineItem();
+    protected abstract void defineItem();
     public abstract void use(Player player);
 
     public void update(float delta){
@@ -42,7 +42,7 @@ public abstract class Item extends Sprite {
             super.draw(batch);
     }
 
-    public void destroy(){
+    void destroy(){
         toDestroy = true;
     }
 

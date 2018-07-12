@@ -1,5 +1,6 @@
 package game.Screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -24,18 +25,19 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class GameplayScreen extends AbstractScreen{
 
-    private World world;
-    private OrthogonalTiledMapRenderer render;
-    private Box2DDebugRenderer renderDebug;
-    private Player player;
-    private Map map;
-    private TextureAtlas atlas;
-    private Hud hud;
-    private Music music;
-    private Array<Item> items;
-    private LinkedBlockingQueue<ItemDef> itemsToSpawn;
+    private final World world;
+    private final OrthogonalTiledMapRenderer render;
+    private final Box2DDebugRenderer renderDebug;
+    private final Player player;
+    private final Map map;
+    private final TextureAtlas atlas;
+    private final Hud hud;
+    private final Array<Item> items;
+    private final LinkedBlockingQueue<ItemDef> itemsToSpawn;
+    private final Game game;
 
-    public GameplayScreen(){
+    public GameplayScreen(Game game){
+        this.game = game;
         world = new World(new Vector2(0, -10f), true);
         renderDebug = new Box2DDebugRenderer();
         atlas = new TextureAtlas("mario_and_enemies.atlas");
@@ -43,7 +45,7 @@ public class GameplayScreen extends AbstractScreen{
         map = new Map();
         render = map.loadMap("1-1test.tmx", world, atlas, this);
         hud = new Hud(batch);
-        music = Main.manager.get("audio/mario_music.ogg", Music.class);
+        Music music = Main.manager.get("audio/mario_music.ogg", Music.class);
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
 
@@ -75,6 +77,11 @@ public class GameplayScreen extends AbstractScreen{
         batch.end();
 
         hud.getStage().draw();
+
+        if(gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
     }
 
     private void update(float delta){
@@ -113,13 +120,19 @@ public class GameplayScreen extends AbstractScreen{
         itemsToSpawn.add(idef);
     }
 
-    public void handleSpawningItems(){
+    private void handleSpawningItems(){
         if(!itemsToSpawn.isEmpty()){
             ItemDef idef = itemsToSpawn.poll();
             if(idef.type == Mushroom.class);{
                 items.add(new Mushroom(world, atlas, idef.position.x, idef.position.y));
             }
         }
+    }
+
+    public boolean gameOver(){
+        if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3)
+            return true;
+        return false;
     }
 
 }
