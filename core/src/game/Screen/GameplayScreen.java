@@ -68,7 +68,7 @@ public class GameplayScreen extends AbstractScreen{
 
         player.draw(batch);
 
-        for(Enemy enemy : map.getGoombas())
+        for(Enemy enemy : map.getEnemies())
             enemy.draw(batch);
 
         for(Item item : items)
@@ -90,7 +90,7 @@ public class GameplayScreen extends AbstractScreen{
         world.step(1 / 120f, 8, 3);
         player.update(delta);
 
-        for(Enemy enemy : map.getGoombas()) {
+        for(Enemy enemy : map.getEnemies()) {
             enemy.update(delta);
 
             if(enemy.getX() < player.getX() + 240)

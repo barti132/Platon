@@ -12,7 +12,9 @@ import game.Block.Brick;
 import game.Block.Coin;
 import game.Block.Ground;
 import game.Block.Pipe;
+import game.Character.Enemy;
 import game.Character.Goomba;
+import game.Character.Turtle;
 import game.Screen.GameplayScreen;
 
 /**
@@ -21,12 +23,14 @@ import game.Screen.GameplayScreen;
 public class Map{
     private TiledMap map;
     private Array<Goomba> goombas;
+    private Array<Turtle> turtles;
 
     private GameplayScreen screen;
 
     public OrthogonalTiledMapRenderer loadMap(String mapName, World world, TextureAtlas atlas, GameplayScreen screen){
         map = new TmxMapLoader().load(mapName);
         goombas = new Array<Goomba>();
+        turtles = new Array<Turtle>();
         this.screen = screen;
         OrthogonalTiledMapRenderer mapRenderer = new OrthogonalTiledMapRenderer(map, 1f / Main.PPM);
         createPhysicalObject(world, atlas);
@@ -34,7 +38,7 @@ public class Map{
     }
 
     private void createPhysicalObject(World world, TextureAtlas atlas){
-        for(int i = 2; i < 7; i++){
+        for(int i = 2; i < 8; i++){
             for(MapObject object : map.getLayers().get(i).getObjects().getByType(RectangleMapObject.class)){
                 switch(i){
                     case 2:
@@ -53,6 +57,10 @@ public class Map{
                     case 6:
                         goombas.add(new Goomba(world, atlas, object));
                         break;
+                    case 7:
+                        turtles.add(new Turtle(world, atlas, object));
+                        break;
+
                 }
             }
         }
@@ -62,7 +70,10 @@ public class Map{
         return map;
     }
 
-    public Array<Goomba> getGoombas() {
-        return goombas;
+    public Array<Enemy> getEnemies(){
+        Array<Enemy> enemies = new Array<Enemy>();
+        enemies.addAll(goombas);
+        enemies.addAll(turtles);
+        return enemies;
     }
 }
