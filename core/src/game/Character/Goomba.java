@@ -90,8 +90,17 @@ public class Goomba extends Enemy {
     }
 
     @Override
-    public void hitOnHead() {
+    public void hitOnHead(Player player) {
         setToDestroy = true;
         Main.manager.get("audio/stomp.wav", Sound.class).play();
+    }
+
+    @Override
+    public void onEnemyHit(Enemy enemy){
+        if(enemy instanceof Turtle && ((Turtle) enemy).currentState == Turtle.State.MOVING_SHELL)
+            setToDestroy = true;
+
+        else
+            reverseVelocity(true, false);
     }
 }

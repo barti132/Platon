@@ -1,6 +1,7 @@
 package game.Character;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
@@ -11,18 +12,22 @@ import game.Main;
 
 public class Turtle extends Enemy {
 
-    public enum State{WALKING, SHELL}
+    public static final int KICK_LEFT_SPEED = -2;
+    public static final int KICK_RIGHT_SPEED = -2;
+    public enum State{WALKING, STANDTING_SHELL, MOVING_SHELL, DEAD}
     public State currentState;
     public State previousState;
     private float stateTime;
     private final Animation walkAnimation;
     private boolean setToDestroy;
     private boolean destroyed;
+    private float deadRotationDegrees;
     private TextureRegion shell;
 
     public Turtle(World world, TextureAtlas atlas, MapObject object){
         super(world, object);
 
+        deadRotationDegrees = 0;
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("turtle"), 32, 0, 16, 24));
         frames.add(new TextureRegion(atlas.findRegion("turtle"), 48, 0, 16, 24));
@@ -58,24 +63,28 @@ public class Turtle extends Enemy {
         head.set(vertice);
 
         fdef.shape = head;
-        fdef.restitution = 0.5f;
+        fdef.restitution = 1.5f;
         fdef.filter.categoryBits = Main.ENEMY_HEAD_BIT;
         body.createFixture(fdef).setUserData(this);
     }
 
     @Override
-    public void hitOnHead() {
-        if(currentState != State.SHELL)
-            currentState = State.SHELL;
+    public void hitOnHead(Player player) {
+        if(currentState != State.STANDTING_SHELL) {
+            currentState = State.STANDTING_SHELL;
             velocity.x = 0;
+        }
 
+        else
+            kick(player.getX() <= this.getX() ? KICK_RIGHT_SPEED : KICK_LEFT_SPEED);
     }
 
     public TextureRegion getFrame(float delta){
         TextureRegion region;
 
         switch (currentState){
-            case SHELL:
+            case STANDTING_SHELL:
+            case MOVING_SHELL:
                 region = shell;
                 break;
             case WALKING:
@@ -99,12 +108,63 @@ public class Turtle extends Enemy {
     @Override
     public void update(float delta) {
         setRegion(getFrame(delta));
-        if(currentState == State.SHELL && stateTime > 5){
+        if(currentState == State.STANDTING_SHELL && stateTime > 5){
             currentState = State.WALKING;
             velocity.x = 1;
         }
 
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - 8 / Main.PPM);
-        body.setLinearVelocity(velocity);
+
+        if(currentState == State.DEAD){
+            deadRotationDegrees += 3;
+            rotate(deadRotationDegrees);
+            if(stateTime > 5 && !destroyed){
+                world.destroyBody(body);
+                destroyed = true;
+            }
+        }
+        else
+            body.setLinearVelocity(velocity);
+    }
+
+    public void kick(int speed){
+        velocity.x = speed;
+        currentState = State.MOVING_SHELL;
+    }
+
+    public State getCurrentState(){
+        return currentState;
+    }
+
+    @Override
+    public void onEnemyHit(Enemy enemy){
+        if(enemy instanceof Turtle){
+            if(((Turtle)enemy).currentState == State.MOVING_SHELL && currentState != State.MOVING_SHELL){
+                killed();
+            }
+            else if(currentState == State.MOVING_SHELL && ((Turtle) enemy).currentState == State.WALKING)
+                return;
+            else
+                reverseVelocity(true, false);
+        }
+        else if(currentState != State.MOVING_SHELL)
+            reverseVelocity(true, false);
+
+    }
+
+    public void killed(){
+        currentState = State.DEAD;
+        Filter filter = new Filter();
+        filter.maskBits = Main.NOTHING_BIT;
+
+        for(Fixture fixture : body.getFixtureList())
+            fixture.setFilterData(filter);
+
+        body.applyLinearImpulse(new Vector2(0, 5f), body.getWorldCenter(), true);
+    }
+
+    public  void draw(Batch batch){
+        if(!destroyed)
+            super.draw(batch);
     }
 }

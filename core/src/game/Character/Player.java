@@ -267,8 +267,12 @@ public class Player extends Sprite{
         Main.manager.get("audio/powerup.wav", Sound.class).play();
     }
 
-    public void hit(){
-        if(marioIsBig){
+    public void hit(Enemy enemy){
+
+        if(enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDTING_SHELL){
+            ((Turtle) enemy).kick(this.getX() <= enemy.getX() ? Turtle.KICK_RIGHT_SPEED : Turtle.KICK_LEFT_SPEED);
+        }
+        else if(marioIsBig){
             marioIsBig = false;
             timeToRedefineMario = true;
             setBounds(getX(), getY(), getWidth(), getHeight() / 2);
